@@ -23,11 +23,12 @@ export async function main(ns) {
 	const boughtServers = ns.getPurchasedServers(ns);
 	servers = servers.filter(s => !boughtServers.includes(s));
 	//servers = servers.filter(s => !s.includes(args[0]));
-	const hostname = servers.find(s => ns.ls(s).find(f => f.endsWith(".cct")) && !exclude.includes(s))
-	if (!hostname) {
+	servers = servers.filter(s => !exclude.includes(s) && ns.ls(s).find(f => f.endsWith(".cct")));
+	//const hostname = servers.find(s => ns.ls(s).find(f => f.endsWith(".cct")) && !exclude.includes(s))
+	if (servers.length == 0) {
 		ns.tprint("No coding contracts found.");
 		return;
 	}
 
-	ns.tprint(`Found coding contract on '${hostname}'.`)
+	ns.tprint(`Found coding contract on '${servers}'.`)
 }
